@@ -76,7 +76,7 @@ const init = () => {
 		}),
 		minChars: 3,
 		showNoSuggestionNotice: true,
-		noSuggestionNotice: 'No results found. Please try a different search string.',
+		noSuggestionNotice: 'Nessun risultato trovato. Prova una ricerca diversa.',
 		onSelect(suggestion) { autocompleteOnSelect(suggestion, this); },
 		width: 490,
 	});
@@ -163,7 +163,7 @@ const autocompleteOnSelect = async (suggestion, elem) => {
 		document.querySelector(BNT_GET_GPS_SELECTOR).classList.remove('active');
 		doRedirectToGeometry(loc.feature.geometry);
 	} else {
-		console.error('An unexpected error occurred. Please try a different search string.');
+		console.error('Si è verificato un errore imprevisto. Prova una ricerca diversa.');
 	}
 };
 
@@ -215,7 +215,7 @@ const enterFullScreen = () => {
 	// change hover text and image
 	const img = document.querySelector(TOGGLE_FULL_SCREEN_SELECTOR);
 	img.src = 'images/nav/ic_fullscreen_exit_white_24dp_2x.png';
-	img.title = 'Exit fullscreen';
+	img.title = 'Esci da schermo intero';
 };
 
 const exitFullscreen = () => {
@@ -239,7 +239,7 @@ const exitFullScreenVisibilityChanges = () => {
 	// change hover text and image
 	const img = document.querySelector(TOGGLE_FULL_SCREEN_SELECTOR);
 	img.src = 'images/nav/ic_fullscreen_white_24dp_2x.png';
-	img.title = 'Enter fullscreen';
+	img.title = 'Schermo intero';
 	document.querySelector('#divTwc').classList.remove('no-cursor');
 	const divTwcBottom = document.querySelector('#divTwcBottom');
 	divTwcBottom.classList.remove('hidden');
@@ -255,10 +255,10 @@ const updateAudioButton = () => {
 	const btnAudio = document.querySelector('#ToggleMusic');
 	if (isAudioPlaying) {
 		btnAudio.src = 'images/nav/ic_volume_up_white_24dp_2x.png';
-		btnAudio.title = 'Pause Music';
+		btnAudio.title = 'Pausa musica';
 	} else {
 		btnAudio.src = 'images/nav/ic_volume_off_white_24dp_2x.png';
-		btnAudio.title = 'Play Music';
+		btnAudio.title = 'Avvia musica';
 	}
 };
 

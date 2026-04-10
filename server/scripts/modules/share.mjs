@@ -12,7 +12,7 @@ const init = () => {
 
 	// if navigator.clipboard does not exist, change text
 	if (!navigator?.clipboard) {
-		shareLink.textContent = 'Get Permalink';
+		shareLink.textContent = 'Ottieni collegamento';
 	}
 };
 

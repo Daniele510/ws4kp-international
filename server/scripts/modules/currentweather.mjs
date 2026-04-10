@@ -5,13 +5,13 @@ import { directionToNSEW } from './utils/calc.mjs';
 import { getWeatherIconFromIconLink } from './icons.mjs';
 import WeatherDisplay from './weatherdisplay.mjs';
 import { registerDisplay } from './navigation.mjs';
-import { getConditionText } from './utils/weather.mjs';
+import { getConditionText, getConditionTextItalian } from './utils/weather.mjs';
 
 import ConversionHelpers from './utils/conversionHelpers.mjs';
 
 class CurrentWeather extends WeatherDisplay {
 	constructor(navId, elemId) {
-		super(navId, elemId, 'Current Conditions', true);
+		super(navId, elemId, 'Condizioni Attuali', true);
 		// pre-load background image (returns promise)
 		this.backgroundImage = loadImg('images/BackGround1_1.png');
 	}
@@ -34,12 +34,13 @@ class CurrentWeather extends WeatherDisplay {
 	async drawCanvas() {
 		super.drawCanvas();
 
-		let condition = getConditionText(this.data.TextConditions);
+		const conditionEnglish = getConditionText(this.data.TextConditions);
+		let condition = getConditionTextItalian(this.data.TextConditions);
 		if (condition.length > 15) {
 			condition = shortConditions(condition);
 		}
 
-		const iconImage = getWeatherIconFromIconLink(condition, this.data.timeZone);
+		const iconImage = getWeatherIconFromIconLink(conditionEnglish, this.data.timeZone);
 		const pressureArrow = getPressureArrow(this.data);
 
 		const fill = {
@@ -49,15 +50,15 @@ class CurrentWeather extends WeatherDisplay {
 			location: this.data.city,
 			humidity: `${this.data.Humidity}%`,
 			dewpoint: this.data.DewPoint + String.fromCharCode(176),
-			ceiling: (this.data.Ceiling === 0 ? 'Unlimited' : this.data.Ceiling + this.data.CeilingUnit),
+			ceiling: (this.data.Ceiling === 0 ? 'Illimitata' : this.data.Ceiling + this.data.CeilingUnit),
 			visibility: this.data.Visibility + this.data.VisibilityUnit,
 			pressure: `${this.data.Pressure}${this.data.PressureUnit}${pressureArrow}`,
-			cloud: this.data.CloudCover ? `${this.data.CloudCover}%` : 'N/A',
-			uv: this.data.UV ? this.data.UV : 'N/A',
+			cloud: this.data.CloudCover ? `${this.data.CloudCover}%` : 'N/D',
+			uv: this.data.UV ? this.data.UV : 'N/D',
 			icon: { type: 'img', src: iconImage },
 		};
 
-		if (this.data.WindGust) fill['wind-gusts'] = `Gusts to ${this.data.WindGust}`;
+		if (this.data.WindGust) fill['wind-gusts'] = `Raffiche fino a ${this.data.WindGust}`;
 
 		const area = this.elem.querySelector('.main');
 
@@ -88,20 +89,18 @@ const getPressureArrow = (data) => {
 
 const shortConditions = (_condition) => {
 	let condition = _condition;
-	condition = condition.replace(/Light/g, 'L');
-	condition = condition.replace(/Heavy/g, 'H');
-	condition = condition.replace(/Partly/g, 'P');
-	condition = condition.replace(/Mostly/g, 'M');
-	condition = condition.replace(/Few/g, 'F');
-	condition = condition.replace(/Thunderstorm/g, 'T\'storm');
-	condition = condition.replace(/ in /g, '');
-	condition = condition.replace(/Vicinity/g, '');
-	condition = condition.replace(/ and /g, ' ');
-	condition = condition.replace(/Freezing Rain/g, 'Frz Rn');
-	condition = condition.replace(/Freezing/g, 'Frz');
-	condition = condition.replace(/Unknown Precip/g, '');
-	condition = condition.replace(/L Snow Fog/g, 'L Snw/Fog');
-	condition = condition.replace(/ with /g, '/');
+	condition = condition.replace(/leggera/gi, 'legg.');
+	condition = condition.replace(/leggeri/gi, 'legg.');
+	condition = condition.replace(/moderata/gi, 'mod.');
+	condition = condition.replace(/moderati/gi, 'mod.');
+	condition = condition.replace(/intensa/gi, 'int.');
+	condition = condition.replace(/intensi/gi, 'int.');
+	condition = condition.replace(/Parzialmente/gi, 'Parz.');
+	condition = condition.replace(/Prevalentemente/gi, 'Prev.');
+	condition = condition.replace(/Temporale/gi, 'Temp.');
+	condition = condition.replace(/Pioggerella/gi, 'Piogg.');
+	condition = condition.replace(/Rovesci di neve/gi, 'Rov. neve');
+	condition = condition.replace(/con grandine/gi, 'con grand.');
 	return condition;
 };
 

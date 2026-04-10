@@ -13,7 +13,7 @@ import ConversionHelpers from './utils/conversionHelpers.mjs';
 
 class MarineForecast extends WeatherDisplay {
 	constructor(navId, elemId, defaultActive) {
-		super(navId, elemId, 'Marine Forecast', defaultActive);
+		super(navId, elemId, 'Previsioni Marine', defaultActive);
 		this.backgroundImage = loadImg('images/BackGround8_1.png');
 	}
 
@@ -55,8 +55,8 @@ class MarineForecast extends WeatherDisplay {
 
 		return {
 			windSpeed: {
-				today: averageTodayWindSpeed,
-				tonight: averageTonightWindSpeed,
+				oggi: averageTodayWindSpeed,
+				stanotte: averageTonightWindSpeed,
 			},
 		};
 	}
@@ -92,8 +92,8 @@ class MarineForecast extends WeatherDisplay {
 			if (titleContainer.querySelectorAll('div').length === 0) {
 				const titleContainerReplacementHtml = `
 					<div class="title-container">
-						<div class="title">WINDS:</div>
-						<div class="title seas">SEAS:</div>
+						<div class="title">VENTI:</div>
+						<div class="title seas">MARE:</div>
 					</div>`;
 				titleContainer.innerHTML = titleContainerReplacementHtml;
 			}
@@ -112,7 +112,8 @@ class MarineForecast extends WeatherDisplay {
 			this.finishDraw();
 			return;
 		}
-		const waveConditionText = this.marineData.map((period) => calculateSeasCondition(period).toUpperCase());
+		const waveConditionRaw = this.marineData.map((period) => calculateSeasCondition(period));
+		const waveConditionText = waveConditionRaw.map((condition) => translateMarineCondition(condition).toUpperCase());
 
 		const time = new Date();
 		const isAfterFivePM = time.getHours() >= 17;
@@ -125,7 +126,7 @@ class MarineForecast extends WeatherDisplay {
 		// create each day template
 		const days = this.marineData.map((period, index) => {
 			const fill = {
-				'wave-icon': { type: 'img', src: getWaveIconFromCondition(waveConditionText[index]) },
+				'wave-icon': { type: 'img', src: getWaveIconFromCondition(waveConditionRaw[index]) },
 				date: period.text,
 				'wind-direction': period.windWaveDirection,
 				'wind-speed': `${this.data.windSpeed[period.text.toLowerCase()].min}-${this.data.windSpeed[period.text.toLowerCase()].max}${ConversionHelpers.getMarineWindUnitText()}`,
@@ -175,7 +176,7 @@ const parseMarineData = (weatherParameters) => {
 
 	// construct "today" object
 	const today = {
-		text: 'Today',
+		text: 'Oggi',
 		swellWaveDirection: directionToNSEW(Math.floor(aggregateHourlyData(weatherParameters.hourly.swell_wave_direction, 0, 11))),
 		swellWaveHeight: aggregateHourlyData(weatherParameters.hourly.swell_wave_height, 0, 11),
 		swellWavePeriod: aggregateHourlyData(weatherParameters.hourly.swell_wave_period, 0, 11),
@@ -185,7 +186,7 @@ const parseMarineData = (weatherParameters) => {
 
 	// construct "tonight" object
 	const tonight = {
-		text: 'Tonight',
+		text: 'Stanotte',
 		swellWaveDirection: directionToNSEW(Math.floor(aggregateHourlyData(weatherParameters.hourly.swell_wave_direction, 12, 23))),
 		swellWaveHeight: aggregateHourlyData(weatherParameters.hourly.swell_wave_height, 12, 23),
 		swellWavePeriod: aggregateHourlyData(weatherParameters.hourly.swell_wave_period, 12, 23),
@@ -196,6 +197,23 @@ const parseMarineData = (weatherParameters) => {
 	aggregatedMarineforecast.push(today, tonight);
 
 	return aggregatedMarineforecast;
+};
+
+const translateMarineCondition = (condition) => {
+	const conditionMap = {
+		calm: 'Calmo',
+		smooth: 'Moderato',
+		slight: 'Leggero',
+		choppy: 'Agitato',
+		'mdt chop': 'Moderato',
+		rough: 'Agitato',
+		'v rough': 'Molto agitato',
+		high: 'Molto mosso',
+		'v high': 'Grosso',
+		phenomenal: 'Tempestoso',
+	};
+
+	return conditionMap[condition] ?? condition;
 };
 
 // register display

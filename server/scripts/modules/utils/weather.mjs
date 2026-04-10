@@ -107,17 +107,57 @@ const weatherConditions = [
 	{ codes: [96, 99], text: ['Thunderstorm with slight hail', 'Thunderstorm with heavy hail'] },
 ];
 
+const weatherConditionTranslations = {
+	'Clear sky': 'Cielo sereno',
+	'Mainly clear': 'Prevalentemente sereno',
+	'Partly cloudy': 'Parzialmente nuvoloso',
+	Overcast: 'Coperto',
+	Fog: 'Nebbia',
+	'Depositing rime fog': 'Nebbia gelata',
+	'Light Drizzle': 'Pioggerella leggera',
+	'Moderate Drizzle': 'Pioggerella moderata',
+	'Dense Drizzle': 'Pioggerella intensa',
+	'Light Freezing Drizzle': 'Pioggerella gelata leggera',
+	'Dense Freezing Drizzle': 'Pioggerella gelata intensa',
+	'Slight Rain': 'Pioggia leggera',
+	'Moderate Rain': 'Pioggia moderata',
+	'Heavy Rain': 'Pioggia intensa',
+	'Light Freezing Rain': 'Pioggia gelata leggera',
+	'Heavy Freezing Rain': 'Pioggia gelata intensa',
+	'Slight Snow fall': 'Nevicata leggera',
+	'Moderate Snow fall': 'Nevicata moderata',
+	'Heavy Snow fall': 'Nevicata intensa',
+	'Snow grains': 'Granuli di neve',
+	'Slight Rain showers': 'Rovesci leggeri',
+	'Moderate Rain showers': 'Rovesci moderati',
+	'Violent Rain showers': 'Rovesci violenti',
+	'Slight Snow showers': 'Rovesci di neve leggeri',
+	'Heavy Snow Showers': 'Rovesci di neve intensi',
+	Thunderstorm: 'Temporale',
+	'Slight Thunderstorm': 'Temporale leggero',
+	'Moderate Thunderstorm': 'Temporale moderato',
+	'Heavy Thunderstorm': 'Temporale intenso',
+	'Thunderstorm with slight hail': 'Temporale con grandine leggera',
+	'Thunderstorm with heavy hail': 'Temporale con grandine intensa',
+};
+
 const getConditionText = (code) => {
 	const conditionIndex = weatherConditions.findIndex((condition) => condition.codes.includes(code));
+	if (conditionIndex === -1) {
+		console.log('unable to determine weather condition from code: ', code);
+		return `unknown weather condition with code: ${code}`;
+	}
 	const weatherConditionObject = weatherConditions[conditionIndex];
 
 	const weatherTextIndex = weatherConditionObject.codes.findIndex((conditionCode) => conditionCode === code);
 	const weatherText = weatherConditionObject.text[weatherTextIndex];
 
-	if (conditionIndex !== -1) return weatherText;
+	return weatherText;
+};
 
-	console.log('unable to determine weather condition from code: ', code);
-	return `unknown weather condition with code: ${code}`;
+const getConditionTextItalian = (code) => {
+	const englishText = getConditionText(code);
+	return weatherConditionTranslations[englishText] ?? englishText;
 };
 
 /**
@@ -253,4 +293,5 @@ export {
 	getGeocoding,
 	aggregateWeatherForecastData,
 	getConditionText,
+	getConditionTextItalian,
 };

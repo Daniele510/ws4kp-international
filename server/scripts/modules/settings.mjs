@@ -23,63 +23,63 @@ const settings = {
 
 const init = () => {
 	// Customizable measurement units
-	settings.windUnits = new Setting('windUnits', 'Wind Units', 'select', 2, windUnitsChange, true, [
+	settings.windUnits = new Setting('windUnits', 'Unità vento', 'select', 2, windUnitsChange, true, [
 		[1, 'm/s'],
 		[2, 'km/h'],
-		[3, 'knots'],
+		[3, 'nodi'],
 		[4, 'mph'],
 		[5, 'bft']
 	]);
-	settings.marineWindUnits = new Setting('marineWindUnits', 'Wind Units (Marine)', 'select', 1, marineWindUnitsChange, true, [
-		[1, 'knots'],
+	settings.marineWindUnits = new Setting('marineWindUnits', 'Unità vento (marine)', 'select', 1, marineWindUnitsChange, true, [
+		[1, 'nodi'],
 		[2, 'm/s'],
 	]);
-	settings.marineWaveHeightUnits = new Setting('marineWaveHeightUnits', 'Wave Height Units', 'select', 1, marineWaveHeightUnitsChange, true, [
-		[1, 'feet'],
-		[2, 'meters'],
+	settings.marineWaveHeightUnits = new Setting('marineWaveHeightUnits', 'Unità altezza onde', 'select', 1, marineWaveHeightUnitsChange, true, [
+		[1, 'piedi'],
+		[2, 'metri'],
 	]);
-	settings.temperatureUnits = new Setting('temperatureUnits', 'Temperature Units', 'select', 1, temperatureChangeUnits, true, [
+	settings.temperatureUnits = new Setting('temperatureUnits', 'Unità temperatura', 'select', 1, temperatureChangeUnits, true, [
 		[1, 'C'],
 		[2, 'F'],
 		[3, 'K'],
 	]);
-	settings.distanceUnits = new Setting('distanceUnits', 'Distance Units', 'select', 1, distanceChangeUnits, true, [
-		[1, 'km'],
-		[2, 'mi'],
-		[3, 'ft'],
-		[4, 'meters'],
+	settings.distanceUnits = new Setting('distanceUnits', 'Unità distanza', 'select', 1, distanceChangeUnits, true, [
+		[1, 'chilometri'],
+		[2, 'miglia'],
+		[3, 'piedi'],
+		[4, 'metri'],
 		[5, 'bananas'],
 	]);
-	settings.pressureUnits = new Setting('pressureUnits', 'Pressure Units', 'select', 1, pressureChangeUnits, true, [
+	settings.pressureUnits = new Setting('pressureUnits', 'Unità pressione', 'select', 1, pressureChangeUnits, true, [
 		[1, 'hPa'],
 		[2, 'inHG'],
 		[3, 'mmHG'],
 	]);
-	settings.hoursFormat = new Setting('hoursFormat', 'Hours Format', 'select', 2, hoursChangeFormat, true, [
-		[1, '12-hour'],
-		[2, '24-hour'],
+	settings.hoursFormat = new Setting('hoursFormat', 'Formato orario', 'select', 2, hoursChangeFormat, true, [
+		[1, '12 ore'],
+		[2, '24 ore'],
 	]);
 
-	settings.speed = new Setting('speed', 'Speed', 'select', 1.0, null, true, [
-		[0.5, 'Very Fast'],
-		[0.75, 'Fast'],
-		[1.0, 'Normal'],
-		[1.25, 'Slow'],
-		[1.5, 'Very Slow'],
+	settings.speed = new Setting('speed', 'Velocità', 'select', 1.0, null, true, [
+		[0.5, 'Molto veloce'],
+		[0.75, 'Veloce'],
+		[1.0, 'Normale'],
+		[1.25, 'Lenta'],
+		[1.5, 'Molto lenta'],
 	]);
 	settings.experimentalFeatures = new Setting(
 		'experimentalFeatures',
-		'Experimental Features <a href="https://github.com/mwood77/ws4kp-international?tab=readme-ov-file#updates-in-1100" target="_blank" rel="noopener noreferrer">(info)</a>',
+		'Funzioni sperimentali <a href="https://github.com/mwood77/ws4kp-international?tab=readme-ov-file#updates-in-1100" target="_blank" rel="noopener noreferrer">(info)</a>',
 		'checkbox',
 		false,
 		experimentalFeaturesChange,
 		true,
 	);
-	settings.hideWebamp = new Setting('hideWebamp', 'Hide Webamp (Winamp)', 'checkbox', false, hideWebampChange, true);
-	settings.scanLines = new Setting('scanLines', 'Enable Scan Lines', 'checkbox', false, scanLinesChange, true);
+	settings.hideWebamp = new Setting('hideWebamp', 'Nascondi Webamp (Winamp)', 'checkbox', false, hideWebampChange, true);
+	settings.scanLines = new Setting('scanLines', 'Linee di scansione', 'checkbox', false, scanLinesChange, true);
 
-	settings.wide = new Setting('wide', 'Widescreen', 'checkbox', false, wideScreenChange, true);
-	settings.kiosk = new Setting('kiosk', 'Kiosk', 'checkbox', false, kioskChange, false);
+	settings.wide = new Setting('wide', 'Schermo largo', 'checkbox', false, wideScreenChange, true);
+	settings.kiosk = new Setting('kiosk', 'Modalità chiosco', 'checkbox', false, kioskChange, false);
 
 	// generate html objects
 	const settingHtml = Object.values(settings).map((d) => d.generate());

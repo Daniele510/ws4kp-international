@@ -5,13 +5,13 @@ import STATUS from './status.mjs';
 import { getWeatherIconFromIconLink } from './icons.mjs';
 import WeatherDisplay from './weatherdisplay.mjs';
 import { registerDisplay } from './navigation.mjs';
-import { getConditionText } from './utils/weather.mjs';
+import { getConditionText, getConditionTextItalian } from './utils/weather.mjs';
 
 import ConversionHelpers from './utils/conversionHelpers.mjs';
 
 class ExtendedForecast extends WeatherDisplay {
 	constructor(navId, elemId) {
-		super(navId, elemId, 'Extended Forecast', true);
+		super(navId, elemId, 'Previsioni Estese', true);
 
 		// set timings
 		this.timing.totalScreens = 2;
@@ -31,9 +31,9 @@ class ExtendedForecast extends WeatherDisplay {
 
 		// Special case for thunderstorm(s), as
 		// it clips into the other day panels
-		if (text.toLowerCase() === 'thunderstorm') {
+		if (text.toLowerCase() === 'temporale') {
 			// special case for thunderstorms
-			sanitizedText = 'Thunder';
+			sanitizedText = 'Temp.';
 			return sanitizedText;
 		}
 
@@ -87,14 +87,15 @@ const parse = (fullForecast) => {
 	const forecast = [];
 
 	Object.values(fullForecast.forecast).forEach((period) => {
-		const text = getConditionText(parseInt(period.weather_code, 10));
+		const textEnglish = getConditionText(parseInt(period.weather_code, 10));
+		const text = getConditionTextItalian(parseInt(period.weather_code, 10));
 		const date = new Date(period.hours[11].time);
 
 		const fDay = {
 			text,
-			icon: getWeatherIconFromIconLink(text, fullForecast.timeZone, true),
+			icon: getWeatherIconFromIconLink(textEnglish, fullForecast.timeZone, true),
 			date,
-			dayName: date.toLocaleDateString('en-US', { weekday: 'long' }),
+			dayName: date.toLocaleDateString('it-IT', { weekday: 'long' }),
 			high: ConversionHelpers.convertTemperatureUnits(period.temperature_2m_max),
 			low: ConversionHelpers.convertTemperatureUnits(period.temperature_2m_min),
 		};

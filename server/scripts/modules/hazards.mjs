@@ -19,7 +19,7 @@ const hazardModifiers = {
 class Hazards extends WeatherDisplay {
 	constructor(navId, elemId, defaultActive) {
 		// special height and width for scrolling
-		super(navId, elemId, 'Hazards', defaultActive);
+		super(navId, elemId, 'Allerte', defaultActive);
 		this.showOnProgress = false;
 
 		// 0 screens skips this during "play"

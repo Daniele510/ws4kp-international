@@ -9,7 +9,7 @@ import { registerDisplay } from './navigation.mjs';
 class TravelForecast extends WeatherDisplay {
 	constructor(navId, elemId, defaultActive) {
 		// special height and width for scrolling
-		super(navId, elemId, 'Travel Forecast', defaultActive);
+		super(navId, elemId, 'Previsioni Viaggio', defaultActive);
 
 		// Remove from loading screen
 		this.showOnProgress = false;
@@ -100,7 +100,7 @@ class TravelForecast extends WeatherDisplay {
 
 				fillValues.icon = { type: 'img', src: icon };
 			} else {
-				fillValues.error = 'NO TRAVEL DATA AVAILABLE';
+				fillValues.error = 'NESSUN DATO VIAGGIO DISPONIBILE';
 			}
 			return this.fillTemplate('travel-row', fillValues);
 		}).filter((d) => d);
@@ -115,7 +115,7 @@ class TravelForecast extends WeatherDisplay {
 		// set up variables
 		const cities = this.data;
 
-		this.elem.querySelector('.header .title.dual .bottom').innerHTML = `For ${getTravelCitiesDayName(cities)}`;
+		this.elem.querySelector('.header .title.dual .bottom').innerHTML = `Per ${getTravelCitiesDayName(cities)}`;
 
 		this.finishDraw();
 	}
@@ -155,7 +155,7 @@ const getTravelCitiesDayName = (cities) => cities.reduce((dayName, city) => {
 		// today or tomorrow
 		const day = DateTime.local().plus({ days: (city.today) ? 0 : 1 });
 		// return the day
-		return day.toLocaleString({ weekday: 'long' });
+		return day.setLocale('it').toLocaleString({ weekday: 'long' });
 	}
 	return dayName;
 }, '');

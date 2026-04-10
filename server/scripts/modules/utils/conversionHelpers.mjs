@@ -56,13 +56,13 @@ export default class ConversionHelpers {
 		// [2, 'm/s'],
 		switch (document.documentElement.attributes.getNamedItem('marine-wind-units').value) {
 			case '1':
-				marineWindUnitText = 'kts';
+				marineWindUnitText = 'nodi';
 				break;
 			case '2':
 				marineWindUnitText = 'm/s';
 				break;
 			default:
-				marineWindUnitText = 'kts';
+				marineWindUnitText = 'nodi';
 		}
 
 		return marineWindUnitText;
@@ -92,7 +92,7 @@ export default class ConversionHelpers {
 				windUnitText = 'km/h';
 				break;
 			case '3':
-				windUnitText = 'knots';
+				windUnitText = 'nodi';
 				break;
 			case '4':
 				windUnitText = 'mph';

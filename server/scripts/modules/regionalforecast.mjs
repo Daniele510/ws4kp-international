@@ -15,7 +15,7 @@ import { getPoint } from './utils/weather.mjs';
 
 class RegionalForecast extends WeatherDisplay {
 	constructor(navId, elemId) {
-		super(navId, elemId, 'Regional Forecast', false);
+		super(navId, elemId, 'Osservazioni Regionali', false);
 		this.showOnProgress = false;
 
 		// timings
@@ -151,18 +151,18 @@ class RegionalForecast extends WeatherDisplay {
 		const titleTop = this.elem.querySelector('.title.dual .top');
 		const titleBottom = this.elem.querySelector('.title.dual .bottom');
 		if (this.screenIndex === 0) {
-			titleTop.innerHTML = 'Regional';
-			titleBottom.innerHTML = 'Observations';
+			titleTop.innerHTML = 'Osservazioni';
+			titleBottom.innerHTML = 'Regionali';
 		} else {
 			const forecastDate = DateTime.fromISO(data[0][this.screenIndex].time);
 
 			// get the name of the day
-			const dayName = forecastDate.toLocaleString({ weekday: 'long' });
-			titleTop.innerHTML = 'Forecast for';
+			const dayName = forecastDate.setLocale('it').toLocaleString({ weekday: 'long' });
+			titleTop.innerHTML = 'Previsioni per';
 			// draw the title
 			titleBottom.innerHTML = data[0][this.screenIndex].daytime
 				? dayName
-				: `${dayName} Night`;
+				: `${dayName} Notte`;
 		}
 
 		// draw the map

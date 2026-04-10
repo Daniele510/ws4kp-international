@@ -3,13 +3,13 @@ import STATUS from './status.mjs';
 import { getWeatherIconFromIconLink } from './icons.mjs';
 import WeatherDisplay from './weatherdisplay.mjs';
 import { registerDisplay } from './navigation.mjs';
-import { getConditionText } from './utils/weather.mjs';
+import { getConditionText, getConditionTextItalian } from './utils/weather.mjs';
 
 import ConversionHelpers from './utils/conversionHelpers.mjs';
 
 class CustomWeatherStation extends WeatherDisplay {
 	constructor(navId, elemId, defaultActive) {
-		super(navId, elemId, 'Personal Weather Station', false, defaultActive);
+		super(navId, elemId, 'Stazione Meteo Personale', false, defaultActive);
 
 		// set timings
 		this.timing.baseDelay = 5000;
@@ -32,12 +32,13 @@ class CustomWeatherStation extends WeatherDisplay {
 			return;
 		}
 
-		let condition = getConditionText(customWeatherParameters.conditionText);
+		const conditionEnglish = getConditionText(customWeatherParameters.conditionText);
+		let condition = getConditionTextItalian(customWeatherParameters.conditionText);
 		if (condition.length > 15) {
 			condition = `${condition.slice(0, 15)}...`;
 		}
 
-		const iconImage = getWeatherIconFromIconLink(customWeatherParameters.conditionText, this.weatherParameters.timeZone);
+		const iconImage = getWeatherIconFromIconLink(conditionEnglish, this.weatherParameters.timeZone);
 
 		const fill = {
 			temp: ConversionHelpers.convertTemperatureUnits(customWeatherParameters.temperature) + String.fromCharCode(176),
@@ -48,11 +49,11 @@ class CustomWeatherStation extends WeatherDisplay {
 			dewpoint: ConversionHelpers.convertTemperatureUnits(customWeatherParameters.dewPoint) + String.fromCharCode(176),
 			visibility: ConversionHelpers.convertDistanceUnits(customWeatherParameters.visibility) + ConversionHelpers.getDistanceUnitText(),
 			pressure: `${Math.floor(ConversionHelpers.convertPressureUnits(customWeatherParameters.pressure)) + ConversionHelpers.getPressureUnitText()}`,
-			uv: customWeatherParameters.uvIndex ? customWeatherParameters.uvIndex : 'N/A',
+			uv: customWeatherParameters.uvIndex ? customWeatherParameters.uvIndex : 'N/D',
 			icon: { type: 'img', src: iconImage },
 		};
 
-		if (customWeatherParameters.windGust) fill['wind-gusts'] = `Gusts to ${customWeatherParameters.windGust}`;
+		if (customWeatherParameters.windGust) fill['wind-gusts'] = `Raffiche fino a ${customWeatherParameters.windGust}`;
 
 		const area = this.elem.querySelector('.main');
 

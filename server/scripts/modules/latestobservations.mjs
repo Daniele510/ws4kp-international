@@ -9,7 +9,7 @@ import { registerDisplay } from './navigation.mjs';
 
 class LatestObservations extends WeatherDisplay {
 	constructor(navId, elemId) {
-		super(navId, elemId, 'Latest Observations', false);
+		super(navId, elemId, 'Ultime Osservazioni', false);
 
 		// constants
 		this.MaximumRegionalStations = 7;
@@ -85,7 +85,7 @@ class LatestObservations extends WeatherDisplay {
 			} else if (WindSpeed === 'NA') {
 				fill.wind = 'NA';
 			} else {
-				fill.wind = 'Calm';
+				fill.wind = 'Calmo';
 			}
 
 			return this.fillTemplate('observation-row', fill);

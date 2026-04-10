@@ -7,7 +7,7 @@ import { registerDisplay } from './navigation.mjs';
 
 class Almanac extends WeatherDisplay {
 	constructor(navId, elemId) {
-		super(navId, elemId, 'Almanac', true);
+		super(navId, elemId, 'Almanacco', true);
 
 		// pre-load background images (returns promises)
 		this.backgroundImage0 = loadImg('images/BackGround3_1.png');
@@ -117,24 +117,24 @@ class Almanac extends WeatherDisplay {
 	async drawCanvas() {
 		super.drawCanvas();
 		const info = this.data;
-		const Today = DateTime.local();
+		const Today = DateTime.local().setLocale('it');
 		const Tomorrow = Today.plus({ days: 1 });
 
 		// sun and moon data
 		this.elem.querySelector('.day-1').innerHTML = Today.toLocaleString({ weekday: 'long' });
 		this.elem.querySelector('.day-2').innerHTML = Tomorrow.toLocaleString({ weekday: 'long' });
-		this.elem.querySelector('.rise-1').innerHTML = DateTime.fromJSDate(info.sun[0].sunrise).toLocaleString(DateTime.TIME_SIMPLE).toLowerCase();
-		this.elem.querySelector('.rise-2').innerHTML = DateTime.fromJSDate(info.sun[1].sunrise).toLocaleString(DateTime.TIME_SIMPLE).toLowerCase();
-		this.elem.querySelector('.set-1').innerHTML = DateTime.fromJSDate(info.sun[0].sunset).toLocaleString(DateTime.TIME_SIMPLE).toLowerCase();
-		this.elem.querySelector('.set-2').innerHTML = DateTime.fromJSDate(info.sun[1].sunset).toLocaleString(DateTime.TIME_SIMPLE).toLowerCase();
+		this.elem.querySelector('.rise-1').innerHTML = DateTime.fromJSDate(info.sun[0].sunrise).setLocale('it').toLocaleString(DateTime.TIME_SIMPLE).toLowerCase();
+		this.elem.querySelector('.rise-2').innerHTML = DateTime.fromJSDate(info.sun[1].sunrise).setLocale('it').toLocaleString(DateTime.TIME_SIMPLE).toLowerCase();
+		this.elem.querySelector('.set-1').innerHTML = DateTime.fromJSDate(info.sun[0].sunset).setLocale('it').toLocaleString(DateTime.TIME_SIMPLE).toLowerCase();
+		this.elem.querySelector('.set-2').innerHTML = DateTime.fromJSDate(info.sun[1].sunset).setLocale('it').toLocaleString(DateTime.TIME_SIMPLE).toLowerCase();
 
 		const days = info.moon.map((MoonPhase) => {
 			const fill = {};
 
-			const date = MoonPhase.date.toLocaleString({ month: 'short', day: 'numeric' });
+			const date = MoonPhase.date.setLocale('it').toLocaleString({ month: 'short', day: 'numeric' });
 
 			fill.date = date;
-			fill.type = MoonPhase.phase;
+			fill.type = translateMoonPhase(MoonPhase.phase);
 			fill.icon = { type: 'img', src: imageName(MoonPhase.phase) };
 
 			return this.fillTemplate('day', fill);
@@ -169,6 +169,21 @@ const imageName = (type) => {
 		case 'First':
 		default:
 			return 'images/2/First-Quarter.gif';
+	}
+};
+
+const translateMoonPhase = (phase) => {
+	switch (phase) {
+		case 'New':
+			return 'Luna nuova';
+		case 'First':
+			return 'Primo quarto';
+		case 'Full':
+			return 'Luna piena';
+		case 'Last':
+			return 'Ultimo quarto';
+		default:
+			return phase;
 	}
 };
 

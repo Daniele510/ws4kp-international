@@ -203,7 +203,7 @@ const getMarineForecast = async (latLon, haveDataCallback) => {
 	if (typeof haveDataCallback === 'function') haveDataCallback(marinePoint);
 
 	displays.forEach((display) => {
-		if (display.name === 'Marine Forecast') {
+		if (display.elemId === 'marine-forecast') {
 			display.getMarineData(point, marinePoint);
 		}
 	});
@@ -216,7 +216,7 @@ const getAirQualityForecast = async (latLon, haveDataCallback) => {
 	if (typeof haveDataCallback === 'function') haveDataCallback(airQualityPoint);
 
 	displays.forEach((display) => {
-		if (display.name === 'Air Quality') {
+		if (display.elemId === 'aqi-forecast') {
 			display.getAirQualityData(point, airQualityPoint);
 		}
 	});
@@ -351,11 +351,11 @@ const setPlaying = (newValue) => {
 
 	if (playing) {
 		noSleep(true);
-		playButton.title = 'Pause';
+		playButton.title = 'Pausa';
 		playButton.src = 'images/nav/ic_pause_white_24dp_2x.png';
 	} else {
 		noSleep(false);
-		playButton.title = 'Play';
+		playButton.title = 'Avvia';
 		playButton.src = 'images/nav/ic_play_arrow_white_24dp_2x.png';
 	}
 	// if we're playing and on the progress screen jump to the next screen
@@ -462,12 +462,12 @@ const autoRefreshChange = (e) => {
 
 const AssignLastUpdate = (date) => {
 	if (date) {
-		document.querySelector('#spanLastRefresh').innerHTML = date.toLocaleString('en-US', {
+		document.querySelector('#spanLastRefresh').innerHTML = date.toLocaleString('it-IT', {
 			weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short',
 		});
 		if (document.querySelector(CHK_AUTO_REFRESH_SELECTOR).checked) startAutoRefreshTimer();
 	} else {
-		document.querySelector('#spanLastRefresh').innerHTML = '(none)';
+		document.querySelector('#spanLastRefresh').innerHTML = '(Nessuno)';
 	}
 };
 

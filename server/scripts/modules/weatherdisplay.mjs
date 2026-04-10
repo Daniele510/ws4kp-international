@@ -219,7 +219,7 @@ class WeatherDisplay {
 
 	drawCurrentDateTime() {
 		// Get the current date and time.
-		const now = DateTime.local().setZone(timeZone());
+		const now = DateTime.local().setZone(timeZone()).setLocale('it');
 
 		const time = now.toLocaleString({
 			hour: '2-digit',

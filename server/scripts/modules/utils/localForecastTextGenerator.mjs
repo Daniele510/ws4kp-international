@@ -7,26 +7,24 @@ function generateLocalForecast(dateStamp, hourlyData) {
 	const NIGHT_HOURS = [...Array(6).keys()].map((h) => h + 18).concat([...Array(6).keys()]); // 6 PM - 6 AM
 
 	const phraseVariations = {
-		'CHANCE OF PRECIPITATION': ['PRECIPITATION PROBABILITY', 'EXPECTED PRECIPITATION LIKELIHOOD', 'CHANCE OF SHOWERS', 'PRECIPITATION POSSIBLE', 'LIKELIHOOD OF RAIN', 'SHOWERS EXPECTED', 'PRECIPITATION LIKELY'],
-		WIND: ['WINDS FROM THE', 'EXPECT WINDS COMING FROM', 'BREEZES BLOWING FROM', 'BREEZES FROM THE', 'GUSTS COMING FROM THE', 'WINDS BLOWING IN FROM THE'],
-		CLOUDY: ['CLOUD COVER', 'SKIES WILL BE MOSTLY CLOUDY', 'OVERCAST CONDITIONS EXPECTED', 'PARTLY CLOUDY SKIES', 'MOSTLY CLOUDY WITH INTERVALS OF SUN', 'CLOUDS DOMINATING THE SKY'],
-		CLEAR: ['MOSTLY CLEAR SKIES', 'FEW CLOUDS EXPECTED', 'SKIES REMAINING CLEAR', 'CLEAR AND SUNNY', 'BRIGHT SKIES EXPECTED', 'VERY LITTLE CLOUD COVER'],
-		'SNOW SHOWERS': ['FLURRIES LIKELY', 'SNOWFALL EXPECTED', 'LIGHT SNOW POSSIBLE'],
+		'CHANCE OF PRECIPITATION': ['PROBABILITÀ DI PRECIPITAZIONI', 'PRECIPITAZIONI PROBABILI', 'PROBABILI ROVESCI', 'PIOGGIA POSSIBILE', 'PROBABILITÀ DI PIOGGIA', 'ROVESCI ATTESI', 'PRECIPITAZIONI ATTESE'],
+		WIND: ['VENTI DA', 'VENTI IN ARRIVO DA', 'BREZZE DA', 'RAFFICHE DA', 'VENTI PROVENIENTI DA'],
+		CLOUDY: ['CIELO PREVALENTEMENTE NUVOLOSO', 'CONDIZIONI DI CIELO COPERTO', 'CIELO PARZIALMENTE NUVOLOSO', 'NUVOLOSITÀ DIFFUSA', 'NUVOLE DOMINANTI'],
+		CLEAR: ['CIELO PREVALENTEMENTE SERENO', 'POCHE NUBI PREVISTE', 'CIELO SERENO', 'SERENO E SOLEGGIATO', 'SCARSA NUVOLOSITÀ'],
+		'SNOW SHOWERS': ['ROVESCI DI NEVE PROBABILI', 'NEVICATE ATTESE', 'NEVE DEBOLE POSSIBILE'],
 	};
 
 	const forecastTemplates = [
-		'{period}...  {cloudCover}, WITH A {tempLabel} AROUND {temp}. {windInfo}. {precipChance}',
-		'{period}... {cloudCover}, {tempLabel} NEAR {temp}. {windInfo}. {precipChance}',
-		'{period}... {cloudCover}, {tempLabel} CLOSE TO {temp}. {windInfo}. {precipChance}',
-		'{cloudCover} THIS {period}, WITH {tempLabel} AROUND {temp}. {windInfo}. {precipChance}',
-		'{period} FORECAST: {cloudCover}, {tempLabel} {temp}. {windInfo}. {precipChance}',
-		'{period} OUTLOOK: {cloudCover}, EXPECT A {tempLabel} AROUND {temp}. {windInfo}. {precipChance}',
-		'{period} WEATHER: {cloudCover}, {tempLabel} AT {temp}. {windInfo}. {precipChance}',
-		'{period}... {cloudCover}, {tempLabel} CLOSE TO {temp}. {windInfo}. {precipChance}',
-		'{period}... A {tempLabel} NEAR {temp}. {cloudCover}. {windInfo}. {precipChance}',
-		'{period}... {cloudCover}. {windInfo}. {precipChance} {tempLabel} AROUND {temp}.',
-		'{period} FORECAST: {cloudCover}, WITH TEMPERATURES AROUND {temp}. {windInfo}. {precipChance}',
-		'{period} WEATHER OUTLOOK: {cloudCover}. {windInfo}. {precipChance} EXPECT TEMPERATURES AROUND {temp}.',
+		'{period}... {cloudCover}, CON {tempLabel} INTORNO A {temp}. {windInfo}. {precipChance}',
+		'{period}... {cloudCover}, {tempLabel} VICINA A {temp}. {windInfo}. {precipChance}',
+		'{period}... {cloudCover}, {tempLabel} ATTORNO A {temp}. {windInfo}. {precipChance}',
+		'{cloudCover} IN {period}, CON {tempLabel} INTORNO A {temp}. {windInfo}. {precipChance}',
+		'PREVISIONE {period}: {cloudCover}, {tempLabel} {temp}. {windInfo}. {precipChance}',
+		'TENDENZA {period}: {cloudCover}, {tempLabel} INTORNO A {temp}. {windInfo}. {precipChance}',
+		'METEO {period}: {cloudCover}, {tempLabel} A {temp}. {windInfo}. {precipChance}',
+		'{period}... {cloudCover}. {windInfo}. {precipChance} {tempLabel} INTORNO A {temp}.',
+		'{period}... {tempLabel} VICINA A {temp}. {cloudCover}. {windInfo}. {precipChance}',
+		'PREVISIONE {period}: {cloudCover}, TEMPERATURE INTORNO A {temp}. {windInfo}. {precipChance}',
 	];
 
 	function getMostFrequent(arr) {
@@ -35,27 +33,27 @@ function generateLocalForecast(dateStamp, hourlyData) {
 
 	// eslint-disable-next-line no-shadow
 	function processForecast(hourlyData, period) {
-		const periodData = hourlyData.filter((entry) => (period === 'MORNING' ? MORNING_HOURS : NIGHT_HOURS).includes(new Date(entry.time).getHours()));
+		const periodData = hourlyData.filter((entry) => (period === 'MATTINA' ? MORNING_HOURS : NIGHT_HOURS).includes(new Date(entry.time).getHours()));
 
 		if (!periodData.length) return null;
 
 		const temps = periodData.map((entry) => ConversionHelpers.convertTemperatureUnits(Math.round(entry.temperature_2m)));
-		const temp = period === 'MORNING' ? Math.max(...temps) : Math.min(...temps);
-		const tempLabel = period === 'MORNING' ? 'HIGH' : 'LOW';
+		const temp = period === 'MATTINA' ? Math.max(...temps) : Math.min(...temps);
+		const tempLabel = period === 'MATTINA' ? 'MASSIMA' : 'MINIMA';
 
 		const windSpeeds = periodData.map((entry) => ConversionHelpers.convertWindUnits(Math.round(entry.wind_speed_10m)));
 		const windDirs = periodData.map((entry) => entry.wind_direction_10m);
-		const windInfo = `${directionToNSEW(getMostFrequent(windDirs))} WIND ${Math.min(...windSpeeds)} TO ${Math.max(...windSpeeds)} ${ConversionHelpers.getWindUnitText().toUpperCase()}`;
+		const windInfo = `${phraseVariations.WIND[Math.floor(Math.random() * phraseVariations.WIND.length)]} ${directionToNSEW(getMostFrequent(windDirs))} ${Math.min(...windSpeeds)}-${Math.max(...windSpeeds)} ${ConversionHelpers.getWindUnitText().toUpperCase()}`;
 
 		const precipProbs = periodData.map((entry) => entry.precipitation_probability);
 		const maxPrecip = Math.max(...precipProbs);
-		let precipChance = 'PRECIPITATION NOT EXPECTED.';
+		let precipChance = 'PRECIPITAZIONI NON PREVISTE.';
 
 		if (maxPrecip >= 30) {
 			const peakHour = periodData.find((entry) => entry.precipitation_probability === maxPrecip)?.time;
 			const hour = new Date(peakHour).getHours();
-			const precipTime = `AFTER ${hour % 12 || 12} ${hour < 12 ? 'AM' : 'PM'}`;
-			precipChance = `${phraseVariations['CHANCE OF PRECIPITATION'][Math.floor(Math.random() * phraseVariations['CHANCE OF PRECIPITATION'].length)]} ${precipTime}. CHANCE IS ${maxPrecip}%.`;
+			const precipTime = `DOPO LE ${hour.toString().padStart(2, '0')}:00`;
+			precipChance = `${phraseVariations['CHANCE OF PRECIPITATION'][Math.floor(Math.random() * phraseVariations['CHANCE OF PRECIPITATION'].length)]} ${precipTime}. PROBABILITÀ ${maxPrecip}%.`;
 		}
 
 		const cloudCover = periodData.map((entry) => entry.cloud_cover);
@@ -94,12 +92,12 @@ function generateLocalForecast(dateStamp, hourlyData) {
 
 	// Generate forecast for the provided date
 	const dayDate = new Date(dateStamp);
-	const dayStr = dayDate.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
+	const dayStr = dayDate.toLocaleDateString('it-IT', { weekday: 'long' }).toUpperCase();
 
 	const dailyData = hourlyData.filter((entry) => new Date(entry.time).toDateString() === dayDate.toDateString());
 
-	const morningForecast = processForecast(dailyData, 'MORNING');
-	const nightForecast = processForecast(dailyData, 'NIGHT');
+	const morningForecast = processForecast(dailyData, 'MATTINA');
+	const nightForecast = processForecast(dailyData, 'NOTTE');
 
 	const forecast = {
 		date: dayStr,
