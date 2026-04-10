@@ -7,10 +7,10 @@ function generateLocalForecast(dateStamp, hourlyData) {
 	const NIGHT_HOURS = [...Array(6).keys()].map((h) => h + 18).concat([...Array(6).keys()]); // 6 PM - 6 AM
 
 	const phraseVariations = {
-		'CHANCE OF PRECIPITATION': ['PROBABILITÀ DI PRECIPITAZIONI', 'PRECIPITAZIONI PROBABILI', 'PROBABILI ROVESCI', 'PIOGGIA POSSIBILE', 'PROBABILITÀ DI PIOGGIA', 'ROVESCI ATTESI', 'PRECIPITAZIONI ATTESE'],
+		'CHANCE OF PRECIPITATION': ['PROBABILITA DI PRECIPITAZIONI', 'PRECIPITAZIONI PROBABILI', 'PROBABILI ROVESCI', 'PIOGGIA POSSIBILE', 'PROBABILITA DI PIOGGIA', 'ROVESCI ATTESI', 'PRECIPITAZIONI ATTESE'],
 		WIND: ['VENTI DA', 'VENTI IN ARRIVO DA', 'BREZZE DA', 'RAFFICHE DA', 'VENTI PROVENIENTI DA'],
-		CLOUDY: ['CIELO PREVALENTEMENTE NUVOLOSO', 'CONDIZIONI DI CIELO COPERTO', 'CIELO PARZIALMENTE NUVOLOSO', 'NUVOLOSITÀ DIFFUSA', 'NUVOLE DOMINANTI'],
-		CLEAR: ['CIELO PREVALENTEMENTE SERENO', 'POCHE NUBI PREVISTE', 'CIELO SERENO', 'SERENO E SOLEGGIATO', 'SCARSA NUVOLOSITÀ'],
+		CLOUDY: ['CIELO PREVALENTEMENTE NUVOLOSO', 'CONDIZIONI DI CIELO COPERTO', 'CIELO PARZIALMENTE NUVOLOSO', 'NUVOLOSITA DIFFUSA', 'NUVOLE DOMINANTI'],
+		CLEAR: ['CIELO PREVALENTEMENTE SERENO', 'POCHE NUBI PREVISTE', 'CIELO SERENO', 'SERENO E SOLEGGIATO', 'SCARSA NUVOLOSITA'],
 		'SNOW SHOWERS': ['ROVESCI DI NEVE PROBABILI', 'NEVICATE ATTESE', 'NEVE DEBOLE POSSIBILE'],
 	};
 
@@ -53,7 +53,7 @@ function generateLocalForecast(dateStamp, hourlyData) {
 			const peakHour = periodData.find((entry) => entry.precipitation_probability === maxPrecip)?.time;
 			const hour = new Date(peakHour).getHours();
 			const precipTime = `DOPO LE ${hour.toString().padStart(2, '0')}:00`;
-			precipChance = `${phraseVariations['CHANCE OF PRECIPITATION'][Math.floor(Math.random() * phraseVariations['CHANCE OF PRECIPITATION'].length)]} ${precipTime}. PROBABILITÀ ${maxPrecip}%.`;
+			precipChance = `${phraseVariations['CHANCE OF PRECIPITATION'][Math.floor(Math.random() * phraseVariations['CHANCE OF PRECIPITATION'].length)]} ${precipTime}. PROBABILITA ${maxPrecip}%.`;
 		}
 
 		const cloudCover = periodData.map((entry) => entry.cloud_cover);

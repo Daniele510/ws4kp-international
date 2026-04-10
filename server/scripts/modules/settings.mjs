@@ -23,34 +23,34 @@ const settings = {
 
 const init = () => {
 	// Customizable measurement units
-	settings.windUnits = new Setting('windUnits', 'Unità vento', 'select', 2, windUnitsChange, true, [
+	settings.windUnits = new Setting('windUnits', 'Unita vento', 'select', 2, windUnitsChange, true, [
 		[1, 'm/s'],
 		[2, 'km/h'],
 		[3, 'nodi'],
 		[4, 'mph'],
 		[5, 'bft']
 	]);
-	settings.marineWindUnits = new Setting('marineWindUnits', 'Unità vento (marine)', 'select', 1, marineWindUnitsChange, true, [
+	settings.marineWindUnits = new Setting('marineWindUnits', 'Unita vento (marine)', 'select', 1, marineWindUnitsChange, true, [
 		[1, 'nodi'],
 		[2, 'm/s'],
 	]);
-	settings.marineWaveHeightUnits = new Setting('marineWaveHeightUnits', 'Unità altezza onde', 'select', 1, marineWaveHeightUnitsChange, true, [
+	settings.marineWaveHeightUnits = new Setting('marineWaveHeightUnits', 'Unita altezza onde', 'select', 1, marineWaveHeightUnitsChange, true, [
 		[1, 'piedi'],
 		[2, 'metri'],
 	]);
-	settings.temperatureUnits = new Setting('temperatureUnits', 'Unità temperatura', 'select', 1, temperatureChangeUnits, true, [
+	settings.temperatureUnits = new Setting('temperatureUnits', 'Unita temperatura', 'select', 1, temperatureChangeUnits, true, [
 		[1, 'C'],
 		[2, 'F'],
 		[3, 'K'],
 	]);
-	settings.distanceUnits = new Setting('distanceUnits', 'Unità distanza', 'select', 1, distanceChangeUnits, true, [
+	settings.distanceUnits = new Setting('distanceUnits', 'Unita distanza', 'select', 1, distanceChangeUnits, true, [
 		[1, 'chilometri'],
 		[2, 'miglia'],
 		[3, 'piedi'],
 		[4, 'metri'],
 		[5, 'bananas'],
 	]);
-	settings.pressureUnits = new Setting('pressureUnits', 'Unità pressione', 'select', 1, pressureChangeUnits, true, [
+	settings.pressureUnits = new Setting('pressureUnits', 'Unita pressione', 'select', 1, pressureChangeUnits, true, [
 		[1, 'hPa'],
 		[2, 'inHG'],
 		[3, 'mmHG'],
@@ -60,7 +60,7 @@ const init = () => {
 		[2, '24 ore'],
 	]);
 
-	settings.speed = new Setting('speed', 'Velocità', 'select', 1.0, null, true, [
+	settings.speed = new Setting('speed', 'Velocita', 'select', 1.0, null, true, [
 		[0.5, 'Molto veloce'],
 		[0.75, 'Veloce'],
 		[1.0, 'Normale'],
@@ -79,7 +79,7 @@ const init = () => {
 	settings.scanLines = new Setting('scanLines', 'Linee di scansione', 'checkbox', false, scanLinesChange, true);
 
 	settings.wide = new Setting('wide', 'Schermo largo', 'checkbox', false, wideScreenChange, true);
-	settings.kiosk = new Setting('kiosk', 'Modalità chiosco', 'checkbox', false, kioskChange, false);
+	settings.kiosk = new Setting('kiosk', 'Modalita chiosco', 'checkbox', false, kioskChange, false);
 
 	// generate html objects
 	const settingHtml = Object.values(settings).map((d) => d.generate());

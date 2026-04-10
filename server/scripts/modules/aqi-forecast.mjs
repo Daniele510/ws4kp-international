@@ -9,7 +9,7 @@ import ExperimentalFeatures from './utils/experimental.mjs';
 
 class AirQualityForecast extends WeatherDisplay {
 	constructor(navId, elemId, defaultActive) {
-		super(navId, elemId, 'Qualità dell\'Aria', defaultActive);
+		super(navId, elemId, 'Qualita dell\'Aria', defaultActive);
 		this.backgroundImage = loadImg('images/Background12.png');
 		this.nearbyCities = [];
 	}

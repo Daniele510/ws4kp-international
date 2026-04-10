@@ -80,7 +80,7 @@ const screens = [
 	},
 
 	// humidity
-	(data) => `Umidità: ${data.Humidity}%   Punto di rugiada: ${data.DewPoint}${degree}${data.TemperatureUnit}`,
+	(data) => `Umidita: ${data.Humidity}%   Punto di rugiada: ${data.DewPoint}${degree}${data.TemperatureUnit}`,
 
 	// barometric pressure
 	(data) => `Pressione barometrica: ${data.Pressure} ${data.PressureUnit}`,
@@ -100,7 +100,7 @@ const screens = [
 	// visibility
 	(data) => {
 		const distance = `${data.Ceiling} ${data.CeilingUnit}`;
-		return `Visib: ${data.Visibility} ${data.VisibilityUnit}   Nuvolosità: ${data.Ceiling === 0 ? 'Illimitata' : distance}`;
+		return `Visib: ${data.Visibility} ${data.VisibilityUnit}   Nuvolosita: ${data.Ceiling === 0 ? 'Illimitata' : distance}`;
 	},
 ];
 
